@@ -6,6 +6,7 @@ from sqlalchemy import MetaData
 from databases import Database
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
+import uvicorn
 
 DATABASE_URL = "postgres://tickets_2b4c_user:keoKLVv5kduVrJx3vQRjOKdesn3KImYA@dpg-cokqe320si5c73dvgi20-a.oregon-postgres.render.com/tickets_2b4c"
 
@@ -53,6 +54,9 @@ async def create_sample_ticket(ticket: Ticket):
     query = "INSERT INTO tickets (title, description, priority) VALUES (:title, :description, :priority)"
     await database.execute(query, values={"title": ticket.title, "description": ticket.description, "priority": ticket.priority})
     return {"title": ticket.title, "description": ticket.description, "priority": ticket.priority}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
 
 
